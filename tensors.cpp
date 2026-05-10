@@ -1,160 +1,75 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <type_traits>
 #include "tensors.h"
+using namespace std;
 
+struct Matrix {
+    int n_rows;
+    int n_cols;
+    float* matPtr;
 
-/*
-Int tensors
-*/
-std::vector<int> create_vector_int(int n_elems, int min_val, int max_val) {
-    std::vector<int> vec(n_elems);
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(min_val, max_val);
-
-    for (int i = 0; i < n_elems; i++) {
-        vec[i] = distrib(gen);
+    // Constructor (& prevents a temporary copy)
+    Matrix(int rows, int cols, vector<float>& vec) {
+        n_rows = rows;
+        n_cols = cols;
+        matPtr = vec.data();
     }
 
-    return vec;
-}
-
-std::vector<int> create_matrix_int(int n_rows, int n_cols, int min_val, int max_val) {
-    std::vector<int> vec(n_rows * n_cols);
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(min_val, max_val);
-
-    for (int i = 0; i < n_rows; i++) {
-        for (int j = 0; j < n_cols; j++) {
-            vec[n_cols * i + j] = distrib(gen);
+    void display() {
+        for (int i = 0; i < n_rows; i++) {
+            for (int j = 0; j < n_cols; j++) {
+                cout << *(matPtr + (i*n_cols) + j) << " ";
+            }
+            cout << endl;
         }
     }
 
-    return vec;
-}
+};
 
+template <typename T>
+vector<T> create_random_data(int n_elems, T min_val, T max_val) {
+    vector<T> vec(n_elems);
 
-/*
-Float tensors
-*/
-std::vector<float> create_vector_float(int n_elems, float min_val, float max_val) {
-    std::vector<float> vec(n_elems);
+    random_device rd;
+    mt19937 gen(rd());
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> distrib(min_val, max_val);
+    if constexpr (is_floating_point_v<T>) {
+        uniform_real_distribution<T> distrib(min_val, max_val);
+        for (int i = 0; i < n_elems; i++) vec[i] = distrib(gen); 
+    }
 
-    for (int i = 0; i < n_elems; i++) {
-        vec[i] = distrib(gen);
+    else {
+        uniform_int_distribution<T> distrib(min_val, max_val);
+        for int(i = 0; i < n_elems; i++) vec[i] = distrib(gen);
     }
 
     return vec;
 }
 
-std::vector<float> create_matrix_float(int n_rows, int n_cols, float min_val, float max_val) {
-    std::vector<float> vec(n_rows * n_cols);
+template <typename T>
+vector<T> create_vector(int n_elems, T min_val, T max_val) {
+    return create_random_data(n_elems, min_val, max_val);
+}
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> distrib(min_val, max_val);
-
-    for (int i = 0; i < n_rows; i++) {
-        for (int j = 0; j < n_cols; j++) {
-            vec[n_cols * i + j] = distrib(gen);
-        }
-    }
-
-    return vec;
+template <typename T>
+vector<T> create_matrix(int n_rows, int n_cols, T min_val, T max_val) {
+    return create_random_data(n_rows*n_cols, min_val, max_val);
 }
 
 
-/*
-Double tensors
-*/
-std::vector<double> create_vector_double(int n_elems, double min_val, double max_val) {
-    std::vector<double> vec(n_elems);
+int main() {
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> distrib(min_val, max_val);
-
-    for (int i = 0; i < n_elems; i++) {
-        vec[i] = distrib(gen);
+    vector<float> myVec = create_vector(9, 1.0f, 10.0f);
+    for (int i = 0; i < myVec.size(); i++) {
+        cout << myVec[i] << " ";
     }
+    cout << endl;
 
-    return vec;
+    Matrix myMatrix(3, 3, myVec);
+    myMatrix.display();
+    cout << endl;
+
+    return 0;
 }
-
-std::vector<double> create_matrix_double(int n_rows, int n_cols, double min_val, double max_val) {
-    std::vector<double> vec(n_rows * n_cols);
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> distrib(min_val, max_val);
-
-    for (int i = 0; i < n_rows; i++) {
-        for (int j = 0; j < n_cols; j++) {
-            vec[n_cols * i + j] = distrib(gen);
-        }
-    }
-
-    return vec;
-}
-
-// int main() {
-//     std::cout << "Testing int creation:" << std::endl;
-//     std::vector<int> myIntVec = create_vector_int(5, 1, 10);
-//     std::cout << "Vector of size " << myIntVec.size() << std::endl;
-//     for (int element : myIntVec) {
-//         std::cout << element << " ";
-//     }
-//     std::cout << "\n\n";
-
-//     std::vector<int> myIntMatrix = create_matrix_int(5, 4, 1, 10);
-//     std::cout << "Matrix of shape 5x4" << std::endl; 
-//     for (int i = 0; i < 5; i++) {
-//         for (int j = 0; j < 4; j++)
-//             std::cout << myIntMatrix[4*i + j] << " ";
-//         std::cout << std::endl;
-//     }
-//     std::cout << "\n\n";
-
-//     std::cout << "Testing float creation:" << std::endl;
-//     std::vector<float> myFloatVec = create_vector_float(5, 1.0, 10.0);
-//     std::cout << "Vector of size " << myFloatVec.size() << std::endl;
-//     for (float element : myFloatVec) {
-//         std::cout << element << " ";
-//     }
-//     std::cout << "\n\n";
-
-//     std::vector<float> myFloatMatrix = create_matrix_float(5, 4, 1.0, 10.0);
-//     std::cout << "Matrix of shape 5x4" << std::endl; 
-//     for (int i = 0; i < 5; i++) {
-//         for (int j = 0; j < 4; j++)
-//             std::cout << myFloatMatrix[4*i + j] << " ";
-//         std::cout << std::endl;
-//     }
-//     std::cout << "\n\n";
-
-//     std::cout << "Testing double creation:" << std::endl;
-//     std::vector<double> myDoubleVec = create_vector_double(5, 1.0, 10.0);
-//     std::cout << "Vector of size " << myDoubleVec.size() << std::endl;
-//     for (double element : myDoubleVec) {
-//         std::cout << element << " ";
-//     }
-//     std::cout << "\n\n";
-
-//     std::vector<double> myDoubleMatrix = create_matrix_double(5, 4, 1.0, 10.0);
-//     std::cout << "Matrix of shape 5x4" << std::endl; 
-//     for (int i = 0; i < 5; i++) {
-//         for (int j = 0; j < 4; j++)
-//             std::cout << myDoubleMatrix[4*i + j] << " ";
-//         std::cout << std::endl;
-//     }
-
-//     return 0;
-// }

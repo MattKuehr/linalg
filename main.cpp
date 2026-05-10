@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    vector<int> intVec = create_vector_int(10, 1, 10);
+    vector<int> intVec = create_vector(10, 1, 10);
     for (int elem : intVec) {
         cout << elem << " ";
     }

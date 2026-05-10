@@ -3,13 +3,15 @@
 #include <vector>
 using namespace std;
 
-vector<int> create_vector_int(int n_elems, int min_val, int max_val);
-vector<int> create_matrix_int(int n_rows, int n_cols, int min_val, int max_val);
+struct Matrix {int n_rows; int n_cols; float* matPtr;};
 
-vector<float> create_vector_float(int n_elems, float min_val, float max_val);
-vector<float> create_matrix_float(int n_rows, int n_cols, float min_val, float max_val);
+template<typename T>
+vector<T> create_random_data(int n_elems, T min_val, T max_val);
 
-vector<double> create_vector_double(int n_elems, double min_val, double max_val);
-vector<double> create_matrix_double(int n_rows, int n_cols, double min_val, double max_val);
+template<typename T>
+vector<T> create_vector(int n_elems, T min_val, T max_val);
+
+template<typename T>
+vector<T> create_matrix(int n_rows, int n_cols, T min_val, T max_val);
 
 #endif

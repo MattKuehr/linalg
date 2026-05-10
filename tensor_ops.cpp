@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include "tensors.h"
 #include "tensor_ops.h"
 using namespace std;
 
@@ -10,6 +11,10 @@ double inner_prod(const T* a, const T* b, int n_elems) {
         res = res + *(a + i) * *(b + i);
     }
     return res;
+}
+
+vector<float> matmul(Matrix m1, Matrix m2) {
+
 }
 
 int main_local() {
