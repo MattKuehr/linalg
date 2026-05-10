@@ -5,28 +5,21 @@
 #include "tensors.h"
 using namespace std;
 
-struct Matrix {
-    int n_rows;
-    int n_cols;
-    float* matPtr;
 
-    // Constructor (& prevents a temporary copy)
-    Matrix(int rows, int cols, vector<float>& vec) {
+Matrix::Matrix(int rows, int cols, vector<float> vec) {
         n_rows = rows;
         n_cols = cols;
-        matPtr = vec.data();
-    }
+        data = move(vec);
+}
 
-    void display() {
-        for (int i = 0; i < n_rows; i++) {
-            for (int j = 0; j < n_cols; j++) {
-                cout << *(matPtr + (i*n_cols) + j) << " ";
-            }
-            cout << endl;
+void Matrix::display() {
+    for (int i = 0; i < n_rows; i++) {
+        for (int j = 0; j < n_cols; j++) {
+            cout << data[i*n_cols + j] << " ";
         }
+        cout << endl;
     }
-
-};
+}
 
 template <typename T>
 vector<T> create_random_data(int n_elems, T min_val, T max_val) {

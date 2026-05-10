@@ -3,7 +3,16 @@
 #include <vector>
 using namespace std;
 
-struct Matrix {int n_rows; int n_cols; float* matPtr;};
+// Put full blueprint of matrix struct in header, implement in cpp file
+struct Matrix {
+    int n_rows;
+    int n_cols;
+    vector<float> data;
+
+    Matrix(int rows, int cols, vector<float> vec);
+
+    void display();
+};
 
 template<typename T>
 vector<T> create_random_data(int n_elems, T min_val, T max_val);

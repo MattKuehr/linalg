@@ -2,6 +2,6 @@
 #define TENSORS_OPS_H
 
 template<typename T>
-double inner_prod(const T* a, const T* b, int n_elems);
+float inner_prod(const T* a, const T* b, int n_elems);
 
 #endif
