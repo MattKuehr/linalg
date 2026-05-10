@@ -7,7 +7,7 @@ using namespace std::chrono;
 int main() {
     auto start = high_resolution_clock::now();
 
-    std::vector<int> matrix = {
+    vector<int> matrix = {
         1, 2, 3,
         4, 5, 6,
         7, 8, 9

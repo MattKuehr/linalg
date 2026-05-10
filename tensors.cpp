@@ -35,7 +35,7 @@ vector<T> create_random_data(int n_elems, T min_val, T max_val) {
 
     else {
         uniform_int_distribution<T> distrib(min_val, max_val);
-        for int(i = 0; i < n_elems; i++) vec[i] = distrib(gen);
+        for (int i = 0; i < n_elems; i++) vec[i] = distrib(gen);
     }
 
     return vec;
@@ -52,7 +52,7 @@ vector<T> create_matrix(int n_rows, int n_cols, T min_val, T max_val) {
 }
 
 
-int main() {
+int main_local() {
 
     vector<float> myVec = create_vector(9, 1.0f, 10.0f);
     for (int i = 0; i < myVec.size(); i++) {
