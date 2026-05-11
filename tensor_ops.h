@@ -13,4 +13,8 @@ float inner_prod(const T* a, const T* b, int mat2_cols, int n_elems) {
 
 Matrix matmul(Matrix m1, Matrix m2);
 
+float vec_norm(Matrix v1, string p);
+
+float RayleighQuotient(Matrix m1, Matrix v1);
+
 #endif

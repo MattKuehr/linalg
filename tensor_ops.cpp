@@ -1,4 +1,5 @@
 #include <vector>
+#include <cmath>
 #include <iostream>
 #include "tensors.h"
 #include "tensor_ops.h"
@@ -20,4 +21,23 @@ Matrix matmul(Matrix m1, Matrix m2) {
     }
     Matrix res(m1_rows, m2_cols, move(vec));
     return res;
+}
+
+float vec_norm(Matrix v1, string p) {
+    
+    Matrix v1_T = v1.transpose();
+    float v1_norm = sqrt(
+        inner_prod(v1_T.data.data(), v1.data.data(), v1.n_cols, v1_T.n_cols)
+    );
+    return v1_norm;
+
+
+}
+
+float RayleighQuotient(Matrix m1, Matrix v1) {
+    Matrix Mv = matmul(m1, v1);
+    Matrix v1_T = v1.transpose();
+    float numerator = inner_prod(v1_T.data.data(), Mv.data.data(), Mv.n_cols, v1_T.n_cols);
+    float denominator = inner_prod(v1_T.data.data(), v1.data.data(), v1.n_cols, v1_T.n_cols);
+    return numerator / denominator;
 }

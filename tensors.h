@@ -13,7 +13,7 @@ struct Matrix {
 
     Matrix(int rows, int cols, vector<float> vec);
 
-    void transpose();
+    Matrix transpose(); // Have transpose return a new matrix
 
     void display();
 };

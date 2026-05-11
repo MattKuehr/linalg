@@ -3,3 +3,4 @@ For finding the size of a data type in bytes, do `sizeof(<type>)`. To time code,
 To do next:
 * Write naive operations for vectors and matrices (norms, inner product, matrix multiplication, etc)
 * Optimize code to run in parallel and time it.
+* Change a matrix to be a template to handle all data types

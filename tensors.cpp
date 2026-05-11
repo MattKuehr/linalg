@@ -10,18 +10,15 @@ Matrix::Matrix(int rows, int cols, vector<float> vec) {
         data = move(vec);
 }
 
-void Matrix::transpose() {
+Matrix Matrix::transpose() {
     vector<float> newData(n_rows*n_cols);
     for (int i = 0; i < n_rows; i++) {
         for (int j = 0; j < n_cols; j++) {
             newData[j*n_rows + i] = data[i*n_cols + j];
         }
     }
-    data = move(newData);
-    float* ptr = data.data();
-    int temp = n_rows;
-    n_rows = n_cols;
-    n_cols = temp;
+    Matrix transposed(n_cols, n_rows, newData);
+    return transposed;
 }
 
 void Matrix::display() {
